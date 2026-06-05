@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10K Pace Chart — Running Pace Per Mile &amp; Km | 5kPaceChart.com</title>
+<meta name="description" content="Free 10K pace chart with pace per mile and km for every finish time from 30 to 90 minutes. Find your required running pace for any 10K goal.">
+<link rel="canonical" href="https://5kpacechart.com/10k-pace-chart/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"10K Pace Chart","url":"https://5kpacechart.com/10k-pace-chart/","description":"Interactive 10K pace chart and running pace calculator","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--orange:#FF6B35;--navy:#1a1a2e;--text:#222;--muted:#666;--bg:#f7f8fa;--card:#fff;--border:#e4e4e4;--radius:10px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--orange);text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:var(--navy);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{color:#fff;font-weight:700;font-size:1.1rem}
+.logo span{color:var(--orange)}
+nav{display:flex;gap:18px;flex-wrap:wrap}
+nav a{color:rgba(255,255,255,.82);font-size:.85rem;white-space:nowrap}
+nav a:hover{color:#fff;text-decoration:none}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#2d4a7a 100%);color:#fff;padding:48px 20px 40px;text-align:center}
+.hero h1{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:800;margin-bottom:12px}
+.hero p{font-size:1.05rem;opacity:.85;max-width:520px;margin:0 auto}
+.container{max-width:860px;margin:0 auto;padding:0 16px}
+.section{padding:32px 0}
+h2{font-size:1.4rem;font-weight:700;margin-bottom:18px;color:var(--navy)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:520px){.calc-grid{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:6px}
+label{font-size:.85rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.time-input{display:flex;gap:6px;align-items:center}
+.time-input input{width:60px;padding:10px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:1rem;text-align:center}
+.time-input input:focus{outline:none;border-color:var(--orange)}
+.time-input span{color:var(--muted);font-size:.9rem}
+.result-box{background:linear-gradient(135deg,var(--orange),#ff8c5a);border-radius:var(--radius);padding:20px;color:#fff;text-align:center}
+.result-box .label{font-size:.8rem;opacity:.85;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.result-box .value{font-size:2rem;font-weight:800;line-height:1.1}
+.result-box .sub{font-size:.85rem;opacity:.85;margin-top:4px}
+.btn{background:var(--orange);color:#fff;border:none;padding:12px 28px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:opacity .15s;width:100%}
+.btn:hover{opacity:.88}
+.unit-toggle{display:flex;gap:8px;margin-bottom:16px}
+.unit-btn{padding:7px 18px;border:1.5px solid var(--border);background:#fff;border-radius:20px;font-size:.85rem;cursor:pointer;font-weight:500;transition:all .15s}
+.unit-btn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.pace-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.pace-table th{background:var(--navy);color:#fff;padding:10px 8px;text-align:center;font-weight:600;font-size:.82rem;text-transform:uppercase;letter-spacing:.04em}
+.pace-table td{padding:9px 8px;text-align:center;border-bottom:1px solid var(--border)}
+.pace-table tr:hover td{background:#fff7f4}
+.pace-table tr.milestone td{background:#fff3ee;font-weight:600}
+.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+.common-goals{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.goal-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}
+.goal-card .time{font-size:1.5rem;font-weight:800;color:var(--orange)}
+.goal-card .pace-mi{font-size:.95rem;font-weight:600;margin:4px 0 2px}
+.goal-card .pace-km{font-size:.82rem;color:var(--muted)}
+.goal-card .level{font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:6px}
+.faq details{border-bottom:1px solid var(--border);padding:14px 0}
+.faq summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+.faq summary::after{content:"▼";font-size:.7rem;color:var(--muted)}
+.faq details[open] summary::after{content:"▲"}
+.faq details p{margin-top:10px;color:var(--muted);font-size:.95rem;line-height:1.7}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.tool-link{display:block;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;color:var(--text);transition:border-color .15s}
+.tool-link:hover{border-color:var(--orange);text-decoration:none}
+.tool-link .icon{font-size:1.6rem;margin-bottom:6px}
+.tool-link .name{font-size:.9rem;font-weight:600}
+footer{background:var(--navy);color:rgba(255,255,255,.6);text-align:center;padding:24px 20px;font-size:.85rem;margin-top:40px}
+footer a{color:rgba(255,255,255,.75)}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">5K<span>Pace</span>Chart</a>
+  <nav>
+    <a href="/">5K</a>
+    <a href="/10k-pace-chart/">10K</a>
+    <a href="/marathon-pace-chart/">Marathon</a>
+    <a href="/5k-pace-calculator/">Pace Calc</a>
+    <a href="/running-pace-calculator/">Run Calc</a>
+    <a href="/tools/">All Tools →</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>10K Pace Chart</h1>
+  <p>Find your exact per-mile and per-km pace for any 10K finish time goal — from 30 to 90 minutes.</p>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <h2>10K Pace Calculator</h2>
+    <div class="card">
+      <div class="calc-grid">
+        <div>
+          <p style="font-size:.9rem;color:var(--muted);margin-bottom:16px">Enter your 10K goal time to calculate your required pace.</p>
+          <div class="form-group" style="margin-bottom:16px">
+            <label>Goal Finish Time</label>
+            <div class="time-input">
+              <input type="number" id="calc-min" min="30" max="120" value="50" placeholder="50">
+              <span>min</span>
+              <input type="number" id="calc-sec" min="0" max="59" value="0" placeholder="00">
+              <span>sec</span>
+            </div>
+          </div>
+          <button class="btn" onclick="calcFromTime()">Calculate Pace</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="result-box">
+            <div class="label">Pace per Mile</div>
+            <div class="value" id="val-mile">8:03</div>
+            <div class="sub">min/mile</div>
+          </div>
+          <div class="result-box" style="background:linear-gradient(135deg,var(--navy),#2d4a7a)">
+            <div class="label">Pace per Km</div>
+            <div class="value" id="val-km">5:00</div>
+            <div class="sub">min/km</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Common 10K Goal Times</h2>
+    <div class="common-goals" id="common-goals"></div>
+  </div>
+
+  <div class="section">
+    <h2>Complete 10K Pace Chart</h2>
+    <div class="unit-toggle">
+      <button class="unit-btn active" id="btn-both" onclick="setUnit('both')">Miles &amp; Km</button>
+      <button class="unit-btn" id="btn-mi" onclick="setUnit('mi')">Miles only</button>
+      <button class="unit-btn" id="btn-km" onclick="setUnit('km')">Km only</button>
+    </div>
+    <div class="table-wrap">
+      <table class="pace-table">
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+    <p style="font-size:.8rem;color:var(--muted);margin-top:8px">⭐ = common goal milestone &nbsp;|&nbsp; Distance: 10.000 km / 6.214 miles</p>
+  </div>
+
+    <div class="section">
+    <h2>About This 10K Pace Chart</h2>
+    <div class="card" style="padding:22px">
+      <p style="margin-bottom:14px">A 10K pace chart shows the exact running pace — in minutes per mile or per km — needed to finish a 10-kilometer race at any given goal time. Whether you're targeting a personal best, chasing a sub-50 minute finish, or simply curious what pace your GPS watch should display, this chart gives you the answer instantly.</p>
+      <p style="margin-bottom:14px">The 10K (6.214 miles) is one of the most popular race distances worldwide — long enough to reward endurance, short enough to run fast. It demands a mix of aerobic base, lactate threshold fitness, and race-day pacing discipline. This tool covers every finish time from <strong>30 minutes</strong> (elite) to <strong>90 minutes</strong> (beginner), in both miles and kilometers.</p>
+      <p><strong>How to use:</strong> Enter your goal finish time in the calculator above to instantly see your per-mile and per-km pace. Or scroll the full chart to find your target row. Use the unit toggle to switch between miles-only, km-only, or both columns at once.</p>
+    </div>
+    <h2 style="margin-top:28px">Who Uses a 10K Pace Chart?</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:4px">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px"><strong style="display:block;margin-bottom:4px">🏅 Race planners</strong><span style="font-size:.85rem;color:var(--muted)">Setting a target time before a 10K event and figuring out the exact pace to lock in from the start.</span></div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px"><strong style="display:block;margin-bottom:4px">🏃 Runners training by pace</strong><span style="font-size:.85rem;color:var(--muted)">Using tempo and threshold runs at 10K pace as a benchmark for weekly training.</span></div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px"><strong style="display:block;margin-bottom:4px">📱 GPS watch users</strong><span style="font-size:.85rem;color:var(--muted)">Converting their goal finish time into a pace-per-km or pace-per-mile target to program into their watch.</span></div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px"><strong style="display:block;margin-bottom:4px">🎽 Coaches &amp; training groups</strong><span style="font-size:.85rem;color:var(--muted)">Assigning target paces for interval and tempo sessions relative to an athlete's 10K fitness.</span></div>
+    </div>
+  </div>
+
+<div class="section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <details open>
+        <summary>What is a good 10K time?</summary>
+        <p>For most recreational runners, finishing a 10K in under 60 minutes is a solid goal. Strong amateur runners aim for sub-50 minutes, while competitive club runners target sub-40 minutes. Elite runners finish in under 30 minutes. The average 10K time is around 55–65 minutes for men and 65–75 minutes for women.</p>
+      </details>
+      <details>
+        <summary>How much slower is a 10K than a 5K?</summary>
+        <p>Most runners are about 10–20 seconds per mile (6–12 sec/km) slower in a 10K compared to a 5K, depending on fitness level. Beginners tend to slow more, while trained runners maintain pace better. Use the <a href="/">5K pace chart</a> alongside this chart to compare your paces.</p>
+      </details>
+      <details>
+        <summary>What pace do I need for a sub-50 minute 10K?</summary>
+        <p>To finish a 10K in under 50 minutes, you need to maintain a pace of 8:03 per mile or 5:00 per km. This is a strong performance that requires consistent training and a solid aerobic base, including regular tempo runs and long runs.</p>
+      </details>
+      <details>
+        <summary>How do I train for a 10K?</summary>
+        <p>A typical 10K training plan spans 8–12 weeks and includes easy runs, tempo intervals, and a weekly long run. Key workouts are 1-mile repeats at goal 10K pace and threshold runs of 20–30 minutes. Building your weekly mileage to 25–35 miles/week is common for sub-50 minute runners.</p>
+      </details>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>More Running Calculators</h2>
+    <div class="tools-grid">
+      <a href="/" class="tool-link"><div class="icon">🏃</div><div class="name">5K Pace Chart</div></a>
+      <a href="/5k-pace-calculator/" class="tool-link"><div class="icon">⏱️</div><div class="name">5K Pace Calculator</div></a>
+      <a href="/mile-pace-calculator/" class="tool-link"><div class="icon">📏</div><div class="name">Mile Pace Calculator</div></a>
+      <a href="/running-pace-calculator/" class="tool-link"><div class="icon">🧮</div><div class="name">Running Pace Calculator</div></a>
+      <a href="/half-marathon-pace-calculator/" class="tool-link"><div class="icon">🏅</div><div class="name">Half Marathon Pace</div></a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 5kPaceChart.com — Free running pace charts and calculators</p>
+  <p style="margin-top:6px"><a href="/tools/">All Tools</a> &nbsp;|&nbsp; <a href="/about.html">About</a> &nbsp;|&nbsp; <a href="/contact.html">Contact</a> &nbsp;|&nbsp; <a href="/privacy.html">Privacy</a> &nbsp;|&nbsp; <a href="/terms.html">Terms</a></p>
+</footer>
+
+<script>
+const KM=10, MI=6.21371;
+const MILESTONES=new Set([30,35,40,45,50,55,60,70,80,90]);
+const GOAL_TIMES=[
+  {time:35,label:"35:00",level:"Elite"},
+  {time:40,label:"40:00",level:"Very Strong"},
+  {time:50,label:"50:00",level:"Strong"},
+  {time:60,label:"60:00",level:"Solid"},
+  {time:70,label:"70:00",level:"Good"},
+];
+function fmt(s){const m=Math.floor(s/60),sec=Math.round(s%60);return m+":"+(sec<10?"0":"")+sec}
+function paceData(s){return{finish:fmt(s),mi:fmt(s/MI),km:fmt(s/KM),mph:(MI/(s/3600)).toFixed(1),kph:(KM/(s/3600)).toFixed(1)}}
+let unit='both';
+function setUnit(u){unit=u;['both','mi','km'].forEach(x=>document.getElementById('btn-'+x).classList.toggle('active',x===u));buildTable()}
+function buildTable(){
+  const showMi=unit!=='km',showKm=unit!=='mi';
+  document.getElementById('table-head').innerHTML='<tr><th>Finish</th>'+(showMi?'<th>Min/Mile</th>':'')+(showKm?'<th>Min/Km</th>':'')+'<th>mph</th><th>km/h</th></tr>';
+  let rows='';
+  for(let m=30;m<=90;m++){const d=paceData(m*60);const ms=MILESTONES.has(m)?'milestone':'';rows+='<tr class="'+ms+'"><td><strong>'+d.finish+'</strong></td>'+(showMi?'<td>'+d.mi+'</td>':'')+(showKm?'<td>'+d.km+'</td>':'')+'<td>'+d.mph+'</td><td>'+d.kph+'</td></tr>'}
+  document.getElementById('table-body').innerHTML=rows;
+}
+function buildGoals(){
+  document.getElementById('common-goals').innerHTML=GOAL_TIMES.map(g=>{const d=paceData(g.time*60);return'<div class="goal-card"><div class="time">'+g.label+'</div><div class="pace-mi">'+d.mi+' /mile</div><div class="pace-km">'+d.km+' /km</div><div class="level">'+g.level+'</div></div>'}).join('');
+}
+function calcFromTime(){
+  const total=parseInt(document.getElementById('calc-min').value||0)*60+parseInt(document.getElementById('calc-sec').value||0);
+  if(!total)return;const d=paceData(total);
+  document.getElementById('val-mile').textContent=d.mi;
+  document.getElementById('val-km').textContent=d.km;
+}
+buildTable();buildGoals();calcFromTime();
+document.getElementById('calc-min').addEventListener('input',calcFromTime);
+document.getElementById('calc-sec').addEventListener('input',calcFromTime);
+</script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5K Pace Calculator — Time, Pace &amp; Speed Converter</title>
+<meta name="description" content="Free 5K pace calculator. Enter your goal time to get pace per mile and km, or enter your pace to get your 5K finish time. Instant running pace conversion.">
+<link rel="canonical" href="https://5kpacechart.com/5k-pace-calculator/">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--orange:#FF6B35;--navy:#1a1a2e;--text:#222;--muted:#666;--bg:#f7f8fa;--card:#fff;--border:#e4e4e4;--radius:10px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--orange);text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:var(--navy);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{color:#fff;font-weight:700;font-size:1.1rem}
+.logo span{color:var(--orange)}
+nav{display:flex;gap:18px;flex-wrap:wrap}
+nav a{color:rgba(255,255,255,.82);font-size:.85rem;white-space:nowrap}
+nav a:hover{color:#fff;text-decoration:none}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#2d4a7a 100%);color:#fff;padding:48px 20px 40px;text-align:center}
+.hero h1{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:800;margin-bottom:12px}
+.hero p{font-size:1.05rem;opacity:.85;max-width:520px;margin:0 auto}
+.container{max-width:760px;margin:0 auto;padding:0 16px}
+.section{padding:32px 0}
+h2{font-size:1.3rem;font-weight:700;margin-bottom:18px;color:var(--navy)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+.tabs{display:flex;gap:0;margin-bottom:24px;border-radius:8px;overflow:hidden;border:1.5px solid var(--border)}
+.tab{flex:1;padding:12px;text-align:center;cursor:pointer;background:#fff;font-weight:600;font-size:.95rem;border:none;transition:all .15s}
+.tab.active{background:var(--navy);color:#fff}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.form-group{margin-bottom:18px}
+label{display:block;font-size:.85rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.time-input{display:flex;gap:6px;align-items:center}
+.time-input input,.pace-input input{padding:12px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:1.05rem;text-align:center}
+.time-input input{width:65px}
+.pace-input input{width:65px}
+.time-input input:focus,.pace-input input:focus{outline:none;border-color:var(--orange)}
+.time-input span,.pace-input span{color:var(--muted);font-size:.9rem}
+.btn{background:var(--orange);color:#fff;border:none;padding:13px 28px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:opacity .15s;width:100%;margin-top:4px}
+.btn:hover{opacity:.88}
+.results{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:20px}
+.result-box{border-radius:var(--radius);padding:18px;text-align:center}
+.result-box.primary{background:linear-gradient(135deg,var(--orange),#ff8c5a);color:#fff}
+.result-box.secondary{background:linear-gradient(135deg,var(--navy),#2d4a7a);color:#fff}
+.result-box.tertiary{background:#fff;border:1.5px solid var(--border);color:var(--text)}
+.result-box .label{font-size:.75rem;opacity:.85;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.result-box .value{font-size:1.6rem;font-weight:800;line-height:1.1}
+.result-box .sub{font-size:.78rem;opacity:.8;margin-top:3px}
+.faq details{border-bottom:1px solid var(--border);padding:14px 0}
+.faq summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+.faq summary::after{content:"▼";font-size:.7rem;color:var(--muted)}
+.faq details[open] summary::after{content:"▲"}
+.faq details p{margin-top:10px;color:var(--muted);font-size:.95rem;line-height:1.7}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.tool-link{display:block;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;color:var(--text);transition:border-color .15s}
+.tool-link:hover{border-color:var(--orange);text-decoration:none}
+.tool-link .icon{font-size:1.6rem;margin-bottom:6px}
+.tool-link .name{font-size:.9rem;font-weight:600}
+footer{background:var(--navy);color:rgba(255,255,255,.6);text-align:center;padding:24px 20px;font-size:.85rem;margin-top:40px}
+footer a{color:rgba(255,255,255,.75)}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">5K<span>Pace</span>Chart</a>
+  <nav>
+    <a href="/">5K</a>
+    <a href="/10k-pace-chart/">10K</a>
+    <a href="/marathon-pace-chart/">Marathon</a>
+    <a href="/5k-pace-calculator/">Pace Calc</a>
+    <a href="/running-pace-calculator/">Run Calc</a>
+    <a href="/tools/">All Tools →</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>5K Pace Calculator</h1>
+  <p>Convert between 5K finish time, pace per mile, pace per km, and running speed instantly.</p>
+</div>
+
+<div class="container">
+  <div class="section">
+    <div class="card">
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('time')">Time → Pace</button>
+        <button class="tab" onclick="showTab('pace-mi')">Mile Pace → Time</button>
+        <button class="tab" onclick="showTab('pace-km')">Km Pace → Time</button>
+      </div>
+
+      <!-- Tab 1: Time → Pace -->
+      <div class="tab-content active" id="tab-time">
+        <div class="form-group">
+          <label>Your 5K Goal Time</label>
+          <div class="time-input">
+            <input type="number" id="t-min" min="15" max="90" value="25" placeholder="25">
+            <span>min</span>
+            <input type="number" id="t-sec" min="0" max="59" value="0" placeholder="00">
+            <span>sec</span>
+          </div>
+        </div>
+        <button class="btn" onclick="calcTime()">Calculate →</button>
+        <div class="results" id="res-time"></div>
+      </div>
+
+      <!-- Tab 2: Mile Pace → Time -->
+      <div class="tab-content" id="tab-pace-mi">
+        <div class="form-group">
+          <label>Your Pace per Mile</label>
+          <div class="pace-input time-input">
+            <input type="number" id="pm-min" min="3" max="20" value="8" placeholder="8">
+            <span>min</span>
+            <input type="number" id="pm-sec" min="0" max="59" value="3" placeholder="03">
+            <span>sec / mile</span>
+          </div>
+        </div>
+        <button class="btn" onclick="calcPaceMi()">Calculate →</button>
+        <div class="results" id="res-pace-mi"></div>
+      </div>
+
+      <!-- Tab 3: Km Pace → Time -->
+      <div class="tab-content" id="tab-pace-km">
+        <div class="form-group">
+          <label>Your Pace per Km</label>
+          <div class="pace-input time-input">
+            <input type="number" id="pk-min" min="2" max="15" value="5" placeholder="5">
+            <span>min</span>
+            <input type="number" id="pk-sec" min="0" max="59" value="0" placeholder="00">
+            <span>sec / km</span>
+          </div>
+        </div>
+        <button class="btn" onclick="calcPaceKm()">Calculate →</button>
+        <div class="results" id="res-pace-km"></div>
+      </div>
+    </div>
+
+    <div class="faq">
+      <details open>
+        <summary>How do I calculate my 5K pace?</summary>
+        <p>Divide your total 5K finish time (in seconds) by 3.10686 (miles) for pace per mile, or by 5 (km) for pace per km. For example, a 25:00 finish = 25×60 ÷ 3.10686 = 483 seconds/mile = 8:03/mile, and 25×60 ÷ 5 = 300 seconds/km = 5:00/km.</p>
+      </details>
+      <details>
+        <summary>What is an 8-minute mile pace for a 5K?</summary>
+        <p>An 8:00/mile pace gives you a 5K finish time of about 24:51 — just under 25 minutes. That's a strong performance putting you in roughly the top 25% of recreational runners. The equivalent km pace is about 4:58/km.</p>
+      </details>
+      <details>
+        <summary>How do I run a faster 5K?</summary>
+        <p>The most effective way to improve your 5K time is to add interval training (e.g., 6×800m at goal race pace), weekly tempo runs (20 min at comfortably hard effort), and gradually increasing weekly mileage. Most runners see significant improvement in 8–12 weeks of consistent training.</p>
+      </details>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>About This 5K Pace Calculator</h2>
+    <div class="card" style="padding:22px">
+      <p style="margin-bottom:14px">This 5K pace calculator works in three modes depending on what you already know. <strong>Time → Pace:</strong> enter your goal finish time and instantly see the pace per mile and km you need to hold. <strong>Mile Pace → Time:</strong> enter your comfortable per-mile pace to see what 5K finish time that produces. <strong>Km Pace → Time:</strong> same but starting from a per-km pace.</p>
+      <p style="margin-bottom:14px">The 5K (5.000 km = 3.10686 miles) is the most popular race distance for recreational runners. It's long enough to test your aerobic fitness but short enough to complete on a busy day. Knowing your 5K pace is also the foundation for setting training zones, estimating 10K and half marathon times, and designing interval workouts.</p>
+      <p><strong>Example:</strong> You want to finish in 28:30. Enter 28 min 30 sec → you need 9:10/mile (5:42/km). Your GPS watch should never show a pace faster than 9:10 for the first half of the race if you want to finish strong.</p>
+    </div>
+    <h2 style="margin-top:28px">5K Finish Times by Runner Level</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:4px">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:1.1rem;font-weight:800;color:var(--orange)">Under 17:00</div><div style="font-size:.82rem;color:var(--muted);margin-top:3px">Elite / competitive</div><div style="font-size:.75rem;color:var(--muted)">5:28/mile pace</div></div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center"><div style="font-size:1.1rem;font-weight:800;color:var(--orange)">17–22 min</div><div style="font-size:.82rem;color:var(--muted);margin-top:3px">Advanced runner</div><div style="font-size:.75rem;color:var(--muted)">5:29–7:05/mile</div></div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:1.1rem;font-weight:800;color:var(--orange)">22–30 min</div><div style="font-size:.82rem;color:var(--muted);margin-top:3px">Recreational runner</div><div style="font-size:.75rem;color:var(--muted)">7:05–9:39/mile</div></div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:1.1rem;font-weight:800;color:var(--orange)">30–45 min</div><div style="font-size:.82rem;color:var(--muted);margin-top:3px">Beginner / walker-runner</div><div style="font-size:.75rem;color:var(--muted)">9:39–14:30/mile</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>How Runners Use 5K Pace</h2>
+    <div class="card" style="padding:18px">
+      <p style="margin-bottom:10px">Your 5K race pace is more than a race-day number — it's a training anchor. Coaches typically define training paces relative to current 5K fitness. <strong>Easy / recovery runs</strong> are typically 60–90 seconds slower per mile than 5K pace. <strong>Tempo runs</strong> are 20–40 seconds slower per mile — this is your lactate threshold, the pace you could theoretically sustain for about an hour. <strong>VO2max intervals</strong> are run at or slightly faster than 5K race pace, with recovery between reps. Knowing your exact 5K pace makes all these zones precise rather than approximate.</p>
+      <p style="margin:0;font-size:.85rem;color:var(--muted)">Rule of thumb: your 10K time is roughly 2× your 5K time + 2–3 minutes. Your half marathon finish is roughly 4.5× your 5K time. Your marathon finish is roughly 10× your 5K time. These are estimates; actual performance depends on weekly mileage and long-run training.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>More Running Calculators</h2>
+    <div class="tools-grid">
+      <a href="/" class="tool-link"><div class="icon">📊</div><div class="name">5K Pace Chart</div></a>
+      <a href="/10k-pace-chart/" class="tool-link"><div class="icon">🏃</div><div class="name">10K Pace Chart</div></a>
+      <a href="/mile-pace-calculator/" class="tool-link"><div class="icon">📏</div><div class="name">Mile Pace Calculator</div></a>
+      <a href="/running-pace-calculator/" class="tool-link"><div class="icon">🧮</div><div class="name">Running Pace Calculator</div></a>
+      <a href="/half-marathon-pace-calculator/" class="tool-link"><div class="icon">🏅</div><div class="name">Half Marathon Pace</div></a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 5kPaceChart.com — Free running pace charts and calculators</p>
+  <p style="margin-top:6px"><a href="/tools/">All Tools</a> &nbsp;|&nbsp; <a href="/about.html">About</a> &nbsp;|&nbsp; <a href="/contact.html">Contact</a> &nbsp;|&nbsp; <a href="/privacy.html">Privacy</a> &nbsp;|&nbsp; <a href="/terms.html">Terms</a></p>
+</footer>
+
+<script>
+const KM=5,MI=3.10686;
+function fmt(s){const m=Math.floor(s/60),sec=Math.round(s%60);return m+":"+(sec<10?"0":"")+sec}
+function makeBoxes(data){
+  return data.map(d=>'<div class="result-box '+d.cls+'"><div class="label">'+d.label+'</div><div class="value">'+d.value+'</div><div class="sub">'+d.sub+'</div></div>').join('');
+}
+function showTab(t){
+  document.querySelectorAll('.tab-content').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach((e,i)=>e.classList.toggle('active',['time','pace-mi','pace-km'][i]===t));
+  document.getElementById('tab-'+t).classList.add('active');
+}
+function calcTime(){
+  const total=parseInt(document.getElementById('t-min').value||0)*60+parseInt(document.getElementById('t-sec').value||0);
+  if(!total)return;
+  const pmi=total/MI,pkm=total/KM;
+  document.getElementById('res-time').innerHTML=makeBoxes([
+    {cls:'primary',label:'Pace / Mile',value:fmt(pmi),sub:'min/mile'},
+    {cls:'secondary',label:'Pace / Km',value:fmt(pkm),sub:'min/km'},
+    {cls:'tertiary',label:'Speed',value:(MI/(total/3600)).toFixed(1)+' mph',sub:(KM/(total/3600)).toFixed(1)+' km/h'},
+  ]);
+}
+function calcPaceMi(){
+  const pSecs=parseInt(document.getElementById('pm-min').value||0)*60+parseInt(document.getElementById('pm-sec').value||0);
+  if(!pSecs)return;
+  const total=pSecs*MI;
+  document.getElementById('res-pace-mi').innerHTML=makeBoxes([
+    {cls:'primary',label:'5K Finish Time',value:fmt(total),sub:'h:mm:ss'},
+    {cls:'secondary',label:'Pace / Km',value:fmt(pSecs/1.60934),sub:'min/km'},
+    {cls:'tertiary',label:'Speed',value:(60/pSecs*60).toFixed(1)+' mph',sub:(60/pSecs*60*1.60934).toFixed(1)+' km/h'},
+  ]);
+}
+function calcPaceKm(){
+  const pSecs=parseInt(document.getElementById('pk-min').value||0)*60+parseInt(document.getElementById('pk-sec').value||0);
+  if(!pSecs)return;
+  const total=pSecs*KM;
+  document.getElementById('res-pace-km').innerHTML=makeBoxes([
+    {cls:'primary',label:'5K Finish Time',value:fmt(total),sub:'h:mm:ss'},
+    {cls:'secondary',label:'Pace / Mile',value:fmt(pSecs*1.60934),sub:'min/mile'},
+    {cls:'tertiary',label:'Speed',value:(60/pSecs/1.60934*60).toFixed(1)+' mph',sub:(60/pSecs*60).toFixed(1)+' km/h'},
+  ]);
+}
+calcTime();
+</script>
+</body>
+</html>

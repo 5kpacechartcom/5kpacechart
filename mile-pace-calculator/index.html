@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mile Pace Calculator — Convert Between Min/Mile and Min/Km</title>
+<meta name="description" content="Free mile pace calculator. Convert pace per mile to pace per km and vice versa. Instantly calculate your running speed in mph and km/h.">
+<link rel="canonical" href="https://5kpacechart.com/mile-pace-calculator/">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--orange:#FF6B35;--navy:#1a1a2e;--text:#222;--muted:#666;--bg:#f7f8fa;--card:#fff;--border:#e4e4e4;--radius:10px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--orange);text-decoration:none}
+a:hover{text-decoration:underline}
+header{background:var(--navy);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{color:#fff;font-weight:700;font-size:1.1rem}
+.logo span{color:var(--orange)}
+nav{display:flex;gap:18px;flex-wrap:wrap}
+nav a{color:rgba(255,255,255,.82);font-size:.85rem;white-space:nowrap}
+nav a:hover{color:#fff;text-decoration:none}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#2d4a7a 100%);color:#fff;padding:48px 20px 40px;text-align:center}
+.hero h1{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:800;margin-bottom:12px}
+.hero p{font-size:1.05rem;opacity:.85;max-width:520px;margin:0 auto}
+.container{max-width:760px;margin:0 auto;padding:0 16px}
+.section{padding:32px 0}
+h2{font-size:1.3rem;font-weight:700;margin-bottom:18px;color:var(--navy)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:540px){.two-col{grid-template-columns:1fr}}
+.form-group{margin-bottom:16px}
+label{display:block;font-size:.85rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.time-input{display:flex;gap:6px;align-items:center}
+.time-input input{width:65px;padding:12px 8px;border:1.5px solid var(--border);border-radius:6px;font-size:1.05rem;text-align:center}
+.time-input input:focus{outline:none;border-color:var(--orange)}
+.time-input span{color:var(--muted);font-size:.9rem}
+.btn{background:var(--orange);color:#fff;border:none;padding:12px 28px;border-radius:6px;font-size:1rem;font-weight:600;cursor:pointer;transition:opacity .15s;width:100%}
+.btn:hover{opacity:.88}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:20px}
+.result-box{border-radius:var(--radius);padding:16px;text-align:center}
+.result-box.primary{background:linear-gradient(135deg,var(--orange),#ff8c5a);color:#fff}
+.result-box.secondary{background:linear-gradient(135deg,var(--navy),#2d4a7a);color:#fff}
+.result-box.plain{background:#fff;border:1.5px solid var(--border)}
+.result-box .label{font-size:.73rem;opacity:.85;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.result-box .value{font-size:1.5rem;font-weight:800;line-height:1.1}
+.result-box .sub{font-size:.75rem;opacity:.8;margin-top:2px}
+.conv-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.conv-table th{background:var(--navy);color:#fff;padding:9px 10px;text-align:center;font-size:.8rem;text-transform:uppercase}
+.conv-table td{padding:8px 10px;text-align:center;border-bottom:1px solid var(--border)}
+.conv-table tr:hover td{background:#fff7f4}
+.conv-table tr.hl td{background:#fff3ee;font-weight:600}
+.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+.faq details{border-bottom:1px solid var(--border);padding:14px 0}
+.faq summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+.faq summary::after{content:"▼";font-size:.7rem;color:var(--muted)}
+.faq details[open] summary::after{content:"▲"}
+.faq details p{margin-top:10px;color:var(--muted);font-size:.95rem;line-height:1.7}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.tool-link{display:block;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;color:var(--text);transition:border-color .15s}
+.tool-link:hover{border-color:var(--orange);text-decoration:none}
+.tool-link .icon{font-size:1.6rem;margin-bottom:6px}
+.tool-link .name{font-size:.9rem;font-weight:600}
+footer{background:var(--navy);color:rgba(255,255,255,.6);text-align:center;padding:24px 20px;font-size:.85rem;margin-top:40px}
+footer a{color:rgba(255,255,255,.75)}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">5K<span>Pace</span>Chart</a>
+  <nav>
+    <a href="/">5K</a>
+    <a href="/10k-pace-chart/">10K</a>
+    <a href="/marathon-pace-chart/">Marathon</a>
+    <a href="/5k-pace-calculator/">Pace Calc</a>
+    <a href="/running-pace-calculator/">Run Calc</a>
+    <a href="/tools/">All Tools →</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>Mile Pace Calculator</h1>
+  <p>Convert pace per mile to pace per km and back. Instantly see your running speed in mph and km/h.</p>
+</div>
+
+<div class="container">
+  <div class="section">
+    <div class="two-col">
+      <div>
+        <h2>Min/Mile → Min/Km</h2>
+        <div class="card">
+          <div class="form-group">
+            <label>Pace per Mile</label>
+            <div class="time-input">
+              <input type="number" id="mi-min" min="3" max="20" value="8" placeholder="8">
+              <span>min</span>
+              <input type="number" id="mi-sec" min="0" max="59" value="0" placeholder="00">
+              <span>sec</span>
+            </div>
+          </div>
+          <button class="btn" onclick="miToKm()">Convert →</button>
+          <div class="result-grid" id="res-mi"></div>
+        </div>
+      </div>
+      <div>
+        <h2>Min/Km → Min/Mile</h2>
+        <div class="card">
+          <div class="form-group">
+            <label>Pace per Km</label>
+            <div class="time-input">
+              <input type="number" id="km-min" min="2" max="15" value="5" placeholder="5">
+              <span>min</span>
+              <input type="number" id="km-sec" min="0" max="59" value="0" placeholder="00">
+              <span>sec</span>
+            </div>
+          </div>
+          <button class="btn" onclick="kmToMi()">Convert →</button>
+          <div class="result-grid" id="res-km"></div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Pace Conversion Reference Table</h2>
+    <div class="table-wrap">
+      <table class="conv-table" id="conv-table"></table>
+    </div>
+  </div>
+
+    <div class="section">
+    <h2>About This Mile Pace Calculator</h2>
+    <div class="card" style="padding:22px">
+      <p style="margin-bottom:14px">This mile pace calculator instantly converts running pace between minutes-per-mile and minutes-per-kilometer, and shows your equivalent speed in mph and km/h. It also includes a full reference conversion table covering every common pace from 4:30/mile (elite) to 15:30/mile (brisk walk).</p>
+      <p style="margin-bottom:14px">The USA, UK, and parts of the Caribbean use miles for road racing — most GPS watches, race signs, and training plans in these countries express pace as min/mile. Runners in Europe, Asia, Australia, and most of the rest of the world use km. This tool bridges the gap instantly, so you always know exactly what your pace means in both systems.</p>
+      <p><strong>Common use cases:</strong> Converting a training plan written in miles to your GPS watch set to km; understanding your race splits when the course markers are in miles but your watch shows km; comparing personal records from different countries; and setting pace zones for heart-rate-based training.</p>
+    </div>
+    <h2 style="margin-top:28px">Quick Reference: Common Paces</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:4px">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:1.2rem;font-weight:800;color:var(--orange)">6:00/mi</div><div style="font-size:.82rem;color:var(--muted);margin-top:2px">= 3:44/km · 10 mph</div><div style="font-size:.75rem;color:var(--muted);margin-top:2px">Sub-19 5K pace</div></div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:1.2rem;font-weight:800;color:var(--orange)">8:00/mi</div><div style="font-size:.82rem;color:var(--muted);margin-top:2px">= 4:58/km · 7.5 mph</div><div style="font-size:.75rem;color:var(--muted);margin-top:2px">Sub-25 5K pace</div></div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:1.2rem;font-weight:800;color:var(--orange)">9:09/mi</div><div style="font-size:.82rem;color:var(--muted);margin-top:2px">= 5:41/km · 6.6 mph</div><div style="font-size:.75rem;color:var(--muted);margin-top:2px">Sub-4h marathon</div></div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:1.2rem;font-weight:800;color:var(--orange)">12:00/mi</div><div style="font-size:.82rem;color:var(--muted);margin-top:2px">= 7:27/km · 5.0 mph</div><div style="font-size:.75rem;color:var(--muted);margin-top:2px">Easy recovery run</div></div>
+    </div>
+  </div>
+
+<div class="section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <details open>
+        <summary>How do I convert pace per mile to pace per km?</summary>
+        <p>Multiply your pace per mile by 0.621371 to get pace per km. For example, 8:00/mile × 0.621371 = 4:58/km. Alternatively, divide your pace per mile (in seconds) by 1.60934 to get seconds per km, then convert back to minutes:seconds.</p>
+      </details>
+      <details>
+        <summary>What is an 8-minute mile in km pace?</summary>
+        <p>An 8:00/mile pace equals approximately 4:58/km. This is a strong recreational running pace that equates to a speed of 7.5 mph (12.1 km/h). At this pace you'd finish a 5K in 24:51 and a 10K in 49:42.</p>
+      </details>
+      <details>
+        <summary>What is a 5-minute km pace in miles?</summary>
+        <p>A 5:00/km pace equals approximately 8:03/mile. This is a solid training and racing pace for many runners, equivalent to 12 km/h (7.46 mph). At this pace you'd finish a 5K in 25:00 and a 10K in 50:00.</p>
+      </details>
+      <details>
+        <summary>How fast is a 6-minute mile?</summary>
+        <p>A 6:00/mile pace equals 3:44/km, or 10 mph (16.1 km/h). This is a fast pace — most recreational runners cannot sustain this for a full 5K. At this pace you'd finish a 5K in 18:39 and a 10K in 37:17.</p>
+      </details>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>More Running Calculators</h2>
+    <div class="tools-grid">
+      <a href="/" class="tool-link"><div class="icon">📊</div><div class="name">5K Pace Chart</div></a>
+      <a href="/10k-pace-chart/" class="tool-link"><div class="icon">🏃</div><div class="name">10K Pace Chart</div></a>
+      <a href="/5k-pace-calculator/" class="tool-link"><div class="icon">⏱️</div><div class="name">5K Pace Calculator</div></a>
+      <a href="/running-pace-calculator/" class="tool-link"><div class="icon">🧮</div><div class="name">Running Pace Calculator</div></a>
+      <a href="/half-marathon-pace-calculator/" class="tool-link"><div class="icon">🏅</div><div class="name">Half Marathon Pace</div></a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 5kPaceChart.com — Free running pace charts and calculators</p>
+  <p style="margin-top:6px"><a href="/tools/">All Tools</a> &nbsp;|&nbsp; <a href="/about.html">About</a> &nbsp;|&nbsp; <a href="/contact.html">Contact</a> &nbsp;|&nbsp; <a href="/privacy.html">Privacy</a> &nbsp;|&nbsp; <a href="/terms.html">Terms</a></p>
+</footer>
+
+<script>
+const MI_PER_KM=0.621371;
+function fmt(s){const m=Math.floor(s/60),sec=Math.round(s%60);return m+":"+(sec<10?"0":"")+sec}
+function makeBoxes(data,id){
+  document.getElementById(id).innerHTML=data.map(d=>'<div class="result-box '+d.cls+'"><div class="label">'+d.label+'</div><div class="value">'+d.value+'</div><div class="sub">'+d.sub+'</div></div>').join('');
+}
+function miToKm(){
+  const s=parseInt(document.getElementById('mi-min').value||0)*60+parseInt(document.getElementById('mi-sec').value||0);
+  if(!s)return;
+  const kmS=s/1.60934;
+  const mph=3600/s;
+  makeBoxes([
+    {cls:'primary',label:'Pace / Km',value:fmt(kmS),sub:'min/km'},
+    {cls:'secondary',label:'Speed',value:mph.toFixed(2)+' mph',sub:(mph*1.60934).toFixed(2)+' km/h'},
+  ],'res-mi');
+}
+function kmToMi(){
+  const s=parseInt(document.getElementById('km-min').value||0)*60+parseInt(document.getElementById('km-sec').value||0);
+  if(!s)return;
+  const miS=s*1.60934;
+  const kph=3600/s;
+  makeBoxes([
+    {cls:'primary',label:'Pace / Mile',value:fmt(miS),sub:'min/mile'},
+    {cls:'secondary',label:'Speed',value:(kph*MI_PER_KM).toFixed(2)+' mph',sub:kph.toFixed(2)+' km/h'},
+  ],'res-km');
+}
+function buildTable(){
+  const paces=[
+    {mi:5,label:true},{mi:6,label:true},{mi:7,label:true},{mi:8,label:true},
+    {mi:9,label:false},{mi:10,label:true},{mi:11,label:false},{mi:12,label:true},
+    {mi:13,label:false},{mi:14,label:false},{mi:15,label:true},
+  ];
+  let html='<thead><tr><th>Min/Mile</th><th>Min/Km</th><th>mph</th><th>km/h</th><th>5K Time</th></tr></thead><tbody>';
+  for(let m=4*60+30;m<=15*60+30;m+=30){
+    const kmS=m/1.60934;
+    const mph=3600/m;
+    const k5=m*3.10686;
+    const hl=(m%60===0)?'hl':'';
+    html+='<tr class="'+hl+'"><td><strong>'+fmt(m)+'</strong></td><td>'+fmt(kmS)+'</td><td>'+mph.toFixed(1)+'</td><td>'+(mph*1.60934).toFixed(1)+'</td><td>'+fmt(k5)+'</td></tr>';
+  }
+  html+='</tbody>';
+  document.getElementById('conv-table').innerHTML=html;
+}
+buildTable();miToKm();kmToMi();
+document.getElementById('mi-min').addEventListener('input',miToKm);
+document.getElementById('mi-sec').addEventListener('input',miToKm);
+document.getElementById('km-min').addEventListener('input',kmToMi);
+document.getElementById('km-sec').addEventListener('input',kmToMi);
+</script>
+</body>
+</html>

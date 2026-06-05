@@ -1,0 +1,18 @@
+# 5kPaceChart.com
+
+> Free running pace charts and calculators for every race distance.
+
+## Tools
+
+- [5K Pace Chart](https://5kpacechart.com/) — Complete 5K pace chart (15–60 min) with per-mile and per-km paces
+- [10K Pace Chart](https://5kpacechart.com/10k-pace-chart/) — 10K pace chart with all finish times 30–90 min
+- [Marathon Pace Chart](https://5kpacechart.com/marathon-pace-chart/) — Marathon pace chart 2:30–6:00 with Boston Qualifier times and race splits
+- [5K Pace Calculator](https://5kpacechart.com/5k-pace-calculator/) — Convert 5K finish time to pace or pace to finish time
+- [Mile Pace Calculator](https://5kpacechart.com/mile-pace-calculator/) — Convert between min/mile and min/km with reference table
+- [Running Pace Calculator](https://5kpacechart.com/running-pace-calculator/) — Universal calculator for any distance: find pace, time, or distance
+- [Half Marathon Pace Calculator](https://5kpacechart.com/half-marathon-pace-calculator/) — Half marathon pace chart and calculator (1:30–3:00)
+- [All Tools](https://5kpacechart.com/tools/) — All running pace tools
+
+## About
+
+5kPaceChart.com provides free, accurate running pace calculators and charts for runners of all levels. All calculations use precise distances: 5K = 5.000 km = 3.10686 miles, 10K = 10.000 km = 6.21371 miles, half marathon = 21.0975 km = 13.1094 miles.
